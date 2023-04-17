@@ -22,7 +22,7 @@ function App() {
   );
 
   return (
-    <div className="bg-[#1E1E1E] min-h-screen">
+    <div className="bg-[#1E1E1E] min-h-screen flex flex-col justify-between">
       <div className="max-w-[390px] mx-auto px-4 py-16 text-white">
         <div className="flex justify-between items-center mt-8">
           <select
@@ -104,6 +104,33 @@ function App() {
           </p>
         </div>
       </div>
+      <footer className="bg-black text-white text-center py-4">
+        <div className="container text-start px-4">
+          <p className="text-neutral-500" dir="rtl">
+            &copy; {new Date().getFullYear()} {"جمية الحقوق محفوظة ل"}{" "}
+            <a
+              className="hover:text-blue-500 transition-colors"
+              href="https://github.com/AbdoArafh"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {"AbdoArafh"}
+            </a>{" "}
+            {"ونسألكم خالص الدعاء"}
+          </p>
+          <p className="text-neutral-500" dir="rtl">
+            الكود على{" "}
+            <a
+              className="hover:text-blue-500 transition-colors"
+              href="https://github.com/AbdoArafh/zakah-nesab"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {"github"}
+            </a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
