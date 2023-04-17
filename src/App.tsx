@@ -79,7 +79,7 @@ function App() {
               <tr>
                 <td className="border border-white py-2 px-4">
                   <input
-                    className="w-12 border border-white rounded-lg bg-transparent appearance-none px-4 text-center"
+                    className="w-12 border border-white rounded-lg bg-transparent appearance-none text-center"
                     type="text"
                     onChange={(e) => {
                       if (e.target.value === "") setCustomEyar(null);
