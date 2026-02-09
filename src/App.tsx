@@ -8,19 +8,30 @@ function App() {
   const [customEyar, setCustomEyar] = useState<number | null>(8);
 
   const { data, isFetching, isLoading, refetch } = useQuery(
-    ["gold-price"],
-    () =>
-      fetch("https://api.metals.live/v1/spot")
-        .then((res) => res.json())
-        .then((data) => data[0].gold as string)
-  );
-
+        ["gold-price", "latest"],
+        () =>
+          fetch("https://freegoldapi.com/data/latest.json")
+            .then((res) => res.json())
+            .then((data) => data[data.length - 1].price as string)
+      );
   const { data: exchangerates } = useQuery(["currency-rates"], () =>
-    fetch(`https://api.exchangerate.host/latest?base=usd`).then((res) =>
-      res.json()
-    )
-  );
-
+        fetch(`https://open.er-api.com/v6/latest?base=USD`).then((res) => res.json()),
+      {
+        select: (data) => {
+          if (data && data.rates && typeof data.rates === 'object') {
+            if (!data.rates[data.base_code]) {
+              data.rates[data.base_code] = 1;
+            }
+            return data;
+          }
+          return {
+            result: "error",
+            rates: {},
+            base_code: "USD"
+          };
+        },
+      }
+    );
   return (
     <div className="bg-[#1E1E1E] min-h-screen flex flex-col justify-between">
       <div className="max-w-[390px] mx-auto px-4 py-16 text-white">
@@ -48,13 +59,15 @@ function App() {
         <div className="text-center mt-8">
           <h1 className="text-3xl font-semibold">{"نصاب زكاة المال"}</h1>
           <h1 className="text-5xl mt-4">
-            {data &&
-              (
-                Number(data) *
-                2.7328134583333785 *
-                exchangerates?.rates[currency]!
-              ).toFixed(2)}
-          </h1>
+            {data && exchangerates && exchangerates.rates && exchangerates.rates[currency] ? (
+                            (
+                              Number(data) *
+                              2.7328134583333785 *
+                              exchangerates.rates[currency]
+                            ).toFixed(2)
+                          ) : (
+                            "..."
+                          )}          </h1>
         </div>
         <div className="mt-16">
           <h2 className="text-center text-2xl">
